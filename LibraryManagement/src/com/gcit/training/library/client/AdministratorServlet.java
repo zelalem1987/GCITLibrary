@@ -66,7 +66,7 @@ public class AdministratorServlet extends HttpServlet {
 				break;
 			}
 			case "/showBook":{			
-				showBookList(request, response);
+//				showBookList(request, response);
 				ajax = true;
 				break;
 			}
@@ -445,7 +445,7 @@ public class AdministratorServlet extends HttpServlet {
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("<tr><th>#</th><th>Genre Name</th><th>Edit</th><th>Delete</th></tr>");
 		for(Genre genre: genres){
-			stringBuffer.append("<tr><td>" + genres.indexOf(genre) + 1 + "</td>");
+			stringBuffer.append("<tr><td>" + (genres.indexOf(genre) + 1 + (pageNo - 1) * 10) + "</td>");
 			stringBuffer.append("<td>" + genre.getGenreName() + "</td>");
 			stringBuffer.append("<td><button class='btn btn-sm btn-success' data-toggle='modal' "
 					+ "data-target='#myModal1' href='editGenre.jsp?genre_id=" + genre.getGerneId() + "'>Edit</button>");
@@ -471,7 +471,7 @@ public class AdministratorServlet extends HttpServlet {
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("<tr><th>#</th><th>Genre Name</th><th>Edit</th><th>Delete</th></tr>");
 		for(Publisher publihser: publishers){
-			stringBuffer.append("<tr><td>" + publishers.indexOf(publihser) + 1 + "</td>");
+			stringBuffer.append("<tr><td>" + (publishers.indexOf(publihser) + 1 + (pageNo - 1) * 10) + "</td>");
 			stringBuffer.append("<td>" + publihser.getPublisherName() + "</td>");
 			stringBuffer.append("<td><button class='btn btn-sm btn-primary' data-toggle='modal' "
 					+ "data-target='#myModal1' href='editGenre.jsp?genre_id=" + publihser.getPublisherId() + "'>Edit</button>");
@@ -498,7 +498,7 @@ public class AdministratorServlet extends HttpServlet {
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("<tr><th>#</th><th>Author Name</th><th>Edit</th><th>Delete</th></tr>");
 		for(BookLoan bookLoan: bookLoans){
-			stringBuffer.append("<tr><td>" + bookLoans.indexOf(bookLoan) + 1 + "</td>");
+			stringBuffer.append("<tr><td>" + (bookLoans.indexOf(bookLoan) + 1 + (pageNo - 1) * 10) + "</td>");
 			stringBuffer.append("<td>" + bookLoan.getBook().getTitle() + "</td>");
 			stringBuffer.append("<td>" + bookLoan.getBranch().getBranchName() + "</td>");
 			stringBuffer.append("<td>" + bookLoan.getBorrower().getBorrowerName() + "</td>");
@@ -534,12 +534,12 @@ public class AdministratorServlet extends HttpServlet {
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("<tr><th>#</th><th>Author Name</th><th>Edit</th><th>Delete</th></tr>");
 		for(Author author: authors){
-			stringBuffer.append("<tr><td>" + authors.indexOf(author) + 1 + "</td>");
+			stringBuffer.append("<tr><td>" + (authors.indexOf(author) + 1  + (pageNo - 1) * 10) + "</td>");
 			stringBuffer.append("<td>" + author.getAuthorName() + "</td>");
 			stringBuffer.append("<td><button class='btn btn-sm btn-primary' data-toggle='modal' "
 					+ "data-target='#myModal1' href='editAuthor.jsp?authorId=" + author.getAuthorId() + "'>Edit</button>");
 			stringBuffer.append("<td><form action='deleteAuthor' method='post'><button class='btn btn-sm btn-danger' value=" + author.getAuthorId() + 
-					" onclick='return confirm('Are you sure you want to delete Author" + author.getAuthorName() + "?')';>Delete</button></form></tr>");
+					"name='authorId' onclick='return confirm('Are you sure you want to delete Author" + author.getAuthorName() + "?')';>Delete</button></form></tr>");
 		}
 		
 		response.getWriter().append(stringBuffer);
@@ -562,7 +562,7 @@ public class AdministratorServlet extends HttpServlet {
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("<tr><th>#</th><th>Borrower Name</th><th>Edit</th><th>Delete</th></tr>");
 		for(Borrower borrower: borrowers){
-			stringBuffer.append("<tr><td>" + borrowers.indexOf(borrower) + 1 + "</td>");
+			stringBuffer.append("<tr><td>" + (borrowers.indexOf(borrower) + 1 + (pageNo - 1) * 10) + "</td>");
 			stringBuffer.append("<td>" + borrower.getBorrowerCardNo() + "</td>");
 			stringBuffer.append("<td><button class='btn btn-sm btn-primary' data-toggle='modal' "
 					+ "data-target='#myModal1' href='editBorrower.jsp?borrowerCardNo=" + borrower.getBorrowerCardNo() + "'>Edit</button>");
@@ -589,13 +589,20 @@ public class AdministratorServlet extends HttpServlet {
 		request.setAttribute("books", books);
 		
 		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append("<tr><th>#</th><th>Genre Name</th><th>Edit</th><th>Delete</th></tr>");
+		stringBuffer.append("<tr><th>#</th><th>Book title</th><th>Publisher</th><th>Author</th><th>Edit</th><th>Delete</th></tr>");
 		for(Book book: books){
-			stringBuffer.append("<tr><td>" + books.indexOf(book) + 1 + "</td>");
-			stringBuffer.append("<td>" + book.getTitle() + "</td>");
+			stringBuffer.append("<tr><td>" + (books.indexOf(book) + 1 + (pageNo - 1) * 10) + "</td>");
+			stringBuffer.append("<td>" + book.getTitle() + "</td>");			
+			if(book.getPublish()!=null && !book.getPublish().getPublisherName().equals(null) && !book.getPublish().getPublisherName().equals("")) {
+				stringBuffer.append("<td>" + book.getPublish().getPublisherName() + "</td>");
+			} else {
+				stringBuffer.append("<td> -- </td>");
+			}
+			stringBuffer.append("<td>" + book.getAuthors() + "</td>");
 			stringBuffer.append("<td><button class='btn btn-sm btn-primary' data-toggle='modal' "
-					+ "data-target='#myModal1' href='editGenre.jsp?genre_id=" + book.getBookId() + "'>Edit</button>");
-			stringBuffer.append("<td><button class='btn btn-sm btn-danger'>Delete</button></tr>");
+					+ "data-target='#myModal1' href='editBook.jsp?bookId=" + book.getBookId() + "'>Edit</button>");
+			stringBuffer.append("<td><form action='deleteBook' method='post'><button class='btn btn-sm btn-danger' value=" + book.getBookId() + 
+					"onclick='return confirm('Are you sure you want to delete Book" + book.getTitle() + "?')';>Delete</button></form></tr>");
 		}
 		
 		response.getWriter().append(stringBuffer);
@@ -669,32 +676,39 @@ public class AdministratorServlet extends HttpServlet {
 	private void addBook(HttpServletRequest request) throws Exception {
 
 		String bookTitle = request.getParameter("bookTitle");
-		String authorId = request.getParameter("authorId");
+		String[] authorId = request.getParameterValues("authorId");		
 		String pubId = request.getParameter("pubId");
 		String genre_id = request.getParameter("genre_id");
 		
-//		List<Book> bookList = new ArrayList<>();
 		List<Author> authorList = new ArrayList<>();
 		List<Publisher> publisherList = new ArrayList<>();
 		List<Genre> genreList = new ArrayList<>();
 		
-//		if(bookList != null){
-			request.setAttribute("authorList", authorList);
-			request.setAttribute("publisherList", publisherList);
-			request.setAttribute("genreList", genreList);
-//			}
+		request.setAttribute("authorList", authorList);
+		request.setAttribute("publisherList", publisherList);
+		request.setAttribute("genreList", genreList);
 		
 		Book book = new Book();
-		Author author = new Author();
 		Publisher publisher = new Publisher();
 		Genre genre = new Genre();
 		
+		List<Author> authors = new ArrayList<>();
+
 		book.setTitle(bookTitle);
-		author.setAuthorId(Integer.parseInt(authorId));
+		
+		if(authorId != null && authorId.length > 0){
+			for(String id: authorId){
+				Author author = new Author();
+				author.setAuthorId(Integer.parseInt(id));
+				authors.add(author);
+			}
+		}
+
 		publisher.setPublisherId(Integer.parseInt(pubId));
 		genre.setGerneId(Integer.parseInt(genre_id));
 		
-		book.setAuthors(author);
+		
+		book.setAuthors(authors);
 		book.setGenres(genre);
 		book.setPublish(publisher);
 		

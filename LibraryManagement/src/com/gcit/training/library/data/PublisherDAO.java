@@ -71,7 +71,6 @@ public class PublisherDAO extends BaseDAO<Publisher>{
 	public List<Publisher> readResult(ResultSet rs) throws SQLException {
 		
 		List<Publisher> list = new ArrayList<>();
-		
 		while(rs.next()){
 			Publisher publisher = new Publisher();
 			publisher.setPublisherId(rs.getInt("publisherId"));
@@ -80,7 +79,9 @@ public class PublisherDAO extends BaseDAO<Publisher>{
 			publisher.setPunlisherPhone(rs.getString("publisherPhone"));
 			list.add(publisher);
 		}
-		
+		System.out.println("Parsing Publisher");
+		System.out.println("Pubname:" + list.get(0).getPublisherName());
+
 		return list;
 	}
 

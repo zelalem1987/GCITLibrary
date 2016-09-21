@@ -14,7 +14,7 @@ import com.gcit.training.library.entity.Book;
 @SuppressWarnings("hiding")
 public abstract class BaseDAO<BaseEntity> {
 
-	private Connection conn = null;
+	protected Connection conn = null;
 
 	private Integer pageNo = 1;
 
@@ -68,6 +68,7 @@ public abstract class BaseDAO<BaseEntity> {
 	}
 
 	public List<BaseEntity> readAllFromDB(String sql, Object[] vals) throws SQLException {
+		System.out.println("hELLO " + sql);
 		ResultSet rst = executeStatement(sql, vals);
 		return readResult(rst);
 	}
@@ -116,6 +117,7 @@ public abstract class BaseDAO<BaseEntity> {
 			}
 
 			rst = stmt.executeQuery();
+			System.out.println("Executed query");
 
 			return rst;
 

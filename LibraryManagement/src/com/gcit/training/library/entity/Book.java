@@ -1,14 +1,16 @@
 package com.gcit.training.library.entity;
 
+import java.util.List;
 
 public class Book implements BaseEntity{
 
 	private int bookId;
 	private String title; 
 	
-	private Publisher publish = new Publisher();
-	private Author authors = new Author();
+	private Publisher publish;
+	private List<Author> authors;
 	private Genre genres = new Genre();
+	
 	public int getBookId() {
 		return bookId;
 	}
@@ -27,10 +29,10 @@ public class Book implements BaseEntity{
 	public void setPublish(Publisher publish) {
 		this.publish = publish;
 	}
-	public Author getAuthors() {
+	public List<Author> getAuthors() {
 		return authors;
 	}
-	public void setAuthors(Author authors) {
+	public void setAuthors(List<Author> authors) {
 		this.authors = authors;
 	}
 	public Genre getGenres() {

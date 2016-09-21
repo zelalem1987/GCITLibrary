@@ -134,11 +134,13 @@
 							<td><%=author.getAuthorName()%></td>
 							<td><button class="btn btn-sm btn-primary" data-toggle="modal"	data-target="#myModal1"	
 									href='editAuthor.jsp?authorId=<%=author.getAuthorId()%>'>Edit</button></td>
-							<td><form action="deleteAuthor" method="post">
+							<td>
+								<form action="deleteAuthor" method="post">
 									<button id="delete" value='<%=author.getAuthorId()%>' name="authorId"
 										class="btn btn-sm btn-danger"
 										onclick="return confirm('Are you sure you want to delete Author <%=author.getAuthorName()%>?');">Delete</button>
-								</form></td> 
+								</form>
+							</td> 
 	
 	 					</tr>
 	 					<%

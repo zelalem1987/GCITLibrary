@@ -9,6 +9,7 @@
 
 <%
 	AdministratorService adminService = AdministratorService.getInstance();
+	System.out.println("*******Test*********");
 	Integer totalCount = adminService.getBookCount();
 	Integer pageSize = 10;
 	Integer pageCount = 0;
@@ -21,6 +22,7 @@
 	}
 	
 	List<Book> books = new ArrayList<Book>();
+	List<Author> authors = new ArrayList<Author>();
 	
 	if (request.getAttribute("books") != null){
 		books = (List<Book>) request.getAttribute("books");
@@ -66,7 +68,6 @@
 	    return true;
 	}
 </script>
-
 <!--main content start-->
 <section id="main-content">
 	<section class="wrapper">
@@ -117,7 +118,6 @@
 				%>
 			</ul>
 		</nav>
-
 		<div class="col-md-12">
 			<section class="panel">
 				<div class="table-responsive">
@@ -125,8 +125,8 @@
 						<tr>
 							<th>#</th>
 							<th>Book title</th>
-							<th>Author</th>
 							<th>Publisher</th>
+							<th>Author</th>
 							<th>Edit</th>
 							<th>Delete</th>
 						</tr>				
@@ -136,11 +136,22 @@
 	 					<tr>
 	 						<td><%=books.indexOf(book) + 1%></td>  
 							<td><%=book.getTitle()%></td>
-							<td><%=book.getAuthors().getAuthorName()%></td>
-							<td><%=book.getPublish().getPublisherName()%></td>
+							<% if(book.getPublish()!=null && !book.getPublish().getPublisherName().equals(null) && !book.getPublish().getPublisherName().equals("")) {%>
+								<td><%=book.getPublish().getPublisherName()%></td>
+							<%} else {%>
+								<td>--</td>
+							<%} %>
+								<td><%=book.getAuthors()%></td>
+							
 							<td><button class="btn btn-sm btn-primary" data-toggle="modal"	data-target="#myModal1"	
 									href='editBook.jsp?bookId=<%=book.getBookId()%>'>Edit</button>
-							<td><button class="btn btn-sm btn-danger">Delete</button> 
+							<td>
+								<form action="deleteBook" method="post">
+									<button id="delete" value='<%=book.getBookId()%>' name="bookId"
+										class="btn btn-sm btn-danger"
+										onclick="return confirm('Are you sure you want to delete Author <%=book.getTitle()%>?');">Delete</button>
+								</form>
+							</td>  
 	
 	 					</tr>
 	 					<%

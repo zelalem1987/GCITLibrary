@@ -148,10 +148,10 @@ public class AdministratorService implements Serializable{
 				
 				int lastBookAddedId= bookDAO.createAndGetId(book);
 				
-				bookDAO.create(book);
+//				bookDAO.create(book);
 				book.setBookId(lastBookAddedId);
-				bookDAO.createBookAuthorMapping(book);
 				bookDAO.createBookGenreMapping(book);
+				bookDAO.createBookAuthorMapping(book);
 				conn.commit();
 			}
 			else throw new Exception("No book title provided!");
@@ -336,6 +336,12 @@ public class AdministratorService implements Serializable{
 		return bookDAO.readall(pageNo, 10, searchString);
 	}
 	
+	public List<Book> getAllBookPubAut(Integer pageNo) throws Exception{
+		
+		Connection conn = ConnectionUtils.getConnection();	
+		BookDAO bookDAO = new BookDAO(conn);
+		return bookDAO.showBooksAuthorsPublishers(pageNo, 10);
+	}
 	/*
 	 * Get Entities by their Ids
 	 */

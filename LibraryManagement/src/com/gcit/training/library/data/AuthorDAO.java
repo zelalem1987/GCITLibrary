@@ -75,7 +75,6 @@ public class AuthorDAO extends BaseDAO<Author>{
 
 	@Override
 	public List<Author> readResult(ResultSet rs) throws SQLException {
-		
 		List<Author> list = new ArrayList<>();
 		
 		while(rs.next()){
@@ -84,7 +83,8 @@ public class AuthorDAO extends BaseDAO<Author>{
 			author.setAuthorName(rs.getString("authorName"));
 			list.add(author);
 		}
-		
+		System.out.println("Author readResult");
+		System.out.println("AAAAA " + list.get(0).getAuthorName());
 		return list;
 	}
 

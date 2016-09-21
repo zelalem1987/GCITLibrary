@@ -13,7 +13,7 @@
 
 <section id="main-content">
 	<section class="wrapper">
-		<div class="col-lg-6">authorList
+		<div class="col-lg-6">
 			<section class="panel">
 				<header class="panel-heading"> Add Books </header>
 				<div class="panel-body">
@@ -22,7 +22,8 @@
 							<input type="text" name="bookTitle" class="form-control" placeholder="Book title">
 							<br/>
 							<div class="panel-heading">
-								<label class="control-label col-lg-2">Author:</label> <select name="authorId">
+							<label class="control-label col-lg-2">Author:</label> 
+								<select multiple size="4" name="authorId">
 									<%
 										for (Author author : authors) {
 									%>
@@ -30,8 +31,9 @@
 									<%
 										}
 									%>
-								</select> <label class="control-label col-lg-2">Publisher:</label> <select
-									name="pubId">
+								</select> 
+							<label class="control-label col-lg-2">Publisher:</label> 
+								<select	name="pubId">
 									<%
 										for (Publisher publisher : publishers) {
 									%>
@@ -39,8 +41,9 @@
 									<%
 										}
 									%>
-								</select> <label class="control-label col-lg-2">Genre:</label> <select
-									name="genre_id">
+								</select> 
+							<label class="control-label col-lg-2">Genre:</label> 
+								<select	name="genre_id">
 									<%
 										for (Genre genre : genres) {
 									%>
